@@ -143,7 +143,11 @@ class Simulation:
             payload = {"citizens": cards, "cheapest_ward": min(wards, key=lambda w: w["rent"])["id"]}
             try:
                 raw = await self.llm.complete_json("react", REACT_SYSTEM, react_user_prompt(cards, wards), payload)
-                by_id = {str(r.get("id")): r for r in raw.get("citizens", []) if isinstance(r, dict)}
+                rows = [r for r in raw.get("citizens", []) if isinstance(r, dict)] if isinstance(raw.get("citizens"), list) else []
+                by_id = {str(r.get("id")): r for r in rows}
+                # Small models sometimes garble ids; if the count matches, trust the order.
+                if len(rows) == len(batch) and not all(m.persona.id in by_id for m in batch):
+                    by_id = {m.persona.id: r for m, r in zip(batch, rows)}
             except Exception:
                 by_id = {}
             out = []

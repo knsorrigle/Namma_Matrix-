@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import json
 import re
+import time
 from dataclasses import dataclass
 from typing import Any, Protocol
 
@@ -25,6 +26,7 @@ class LLMStats:
     failures: int = 0
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    seconds: float = 0.0
 
 
 class LLM(Protocol):
@@ -47,7 +49,7 @@ def _extract_json(text: str) -> dict[str, Any]:
 
 
 class OpenAICompatLLM:
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings, transport: httpx.AsyncBaseTransport | None = None):
         self.settings = settings
         self.stats = LLMStats()
         self._sem = asyncio.Semaphore(max(1, settings.llm_concurrency))
@@ -55,6 +57,7 @@ class OpenAICompatLLM:
             base_url=settings.llm_base_url.rstrip("/"),
             headers={"Authorization": f"Bearer {settings.llm_api_key}"},
             timeout=180,
+            transport=transport,
         )
 
     async def complete_json(self, task, system, user, payload, model=None):
@@ -68,7 +71,9 @@ class OpenAICompatLLM:
         for _ in range(2):
             try:
                 async with self._sem:
+                    started = time.perf_counter()
                     resp = await self._client.post("/chat/completions", json=body)
+                    self.stats.seconds += time.perf_counter() - started
                 resp.raise_for_status()
                 data = resp.json()
                 usage = data.get("usage") or {}
