@@ -81,6 +81,7 @@ class Runner:
                 {**m.persona.model_dump(), "state": m.state.model_dump()} for m in sim.minds.values()
             ],
             "events": [e.model_dump() for e in sim.world.events[-20:]],
+            "opinions": {k: v.model_dump() for k, v in sim.opinion_summary()[0].items()},
         }
 
 

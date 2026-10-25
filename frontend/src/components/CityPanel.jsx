@@ -1,6 +1,7 @@
 import { moodColor } from '../colors.js'
+import { TOPICS } from '../opinions.js'
 
-export default function CityPanel({ wards, startWards, city, lastTick }) {
+export default function CityPanel({ wards, startWards, city, opinions, lastTick }) {
   const start = Object.fromEntries(startWards.map((w) => [w.id, w]))
   const pct = (now, then) => (then ? ((now / then - 1) * 100).toFixed(1) : '0.0')
   return (
@@ -25,6 +26,26 @@ export default function CityPanel({ wards, startWards, city, lastTick }) {
         <span>Metro fare <b>₹{city.metro_fare?.toFixed(0)}</b></span>
         <span>Petrol <b>₹{city.fuel_price?.toFixed(0)}</b></span>
       </div>
+      {opinions && Object.keys(opinions).length > 0 && (
+        <>
+          <h3>What the city thinks</h3>
+          <table className="wards">
+            <thead><tr><th>Topic</th><th>Agree</th><th>Disagree</th><th>Split</th></tr></thead>
+            <tbody>
+              {Object.entries(TOPICS).map(([k, t]) => {
+                const o = opinions[k]
+                if (!o) return null
+                const pct = (x) => `${Math.round(x * 100)}%`
+                return (
+                  <tr key={k} title={t.statement}>
+                    <td>{t.label}</td><td>{pct(o.agree)}</td><td>{pct(o.disagree)}</td><td>{o.spread.toFixed(2)}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
       {lastTick && (
         <p className="muted">Last tick: {lastTick.thinking} citizens thought, {lastTick.llm_calls} LLM calls, {lastTick.tick_seconds}s.</p>
       )}

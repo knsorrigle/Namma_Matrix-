@@ -11,12 +11,15 @@ from __future__ import annotations
 import asyncio
 import json
 import re
+import time
 from dataclasses import dataclass
 from typing import Any, Protocol
 
 import httpx
 
 from ..config import Settings
+from .opinions import rule_shifts, stance_of
+from .voice import situation_for
 
 
 @dataclass
@@ -25,6 +28,7 @@ class LLMStats:
     failures: int = 0
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    seconds: float = 0.0
 
 
 class LLM(Protocol):
@@ -47,7 +51,7 @@ def _extract_json(text: str) -> dict[str, Any]:
 
 
 class OpenAICompatLLM:
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings, transport: httpx.AsyncBaseTransport | None = None):
         self.settings = settings
         self.stats = LLMStats()
         self._sem = asyncio.Semaphore(max(1, settings.llm_concurrency))
@@ -55,6 +59,7 @@ class OpenAICompatLLM:
             base_url=settings.llm_base_url.rstrip("/"),
             headers={"Authorization": f"Bearer {settings.llm_api_key}"},
             timeout=180,
+            transport=transport,
         )
 
     async def complete_json(self, task, system, user, payload, model=None):
@@ -68,7 +73,9 @@ class OpenAICompatLLM:
         for _ in range(2):
             try:
                 async with self._sem:
+                    started = time.perf_counter()
                     resp = await self._client.post("/chat/completions", json=body)
+                    self.stats.seconds += time.perf_counter() - started
                 resp.raise_for_status()
                 data = resp.json()
                 usage = data.get("usage") or {}
@@ -155,11 +162,25 @@ def _mock_reaction(c: dict[str, Any], cheapest_ward: str | None = None) -> dict[
         thought = example
         if post:
             post = example
-    return {"id": c["id"], "thought": thought, "mood_change": mood, "action": action, "move_to": None, "post": post}
+    # Behaviour follows opinions: strong distrust plus a bad mood turns into action.
+    ops = c.get("opinions") or {}
+    if action in ("stay", "post") and stance_of(ops.get("government")) <= -0.6 and c["mood"] < -0.3 and "outspoken" in c.get("traits", []):
+        action = "protest"
+        post = post or "Enough is enough. Going to Freedom Park this weekend, who's coming?"
+    elif action == "stay" and stance_of(ops.get("my_area")) <= -0.5 and c["mood"] < -0.3:
+        action = "consider_moving"
+    shifts = rule_shifts(c, c.get("situation") or situation_for(c["observations"]))
+    return {"id": c["id"], "thought": thought, "mood_change": mood, "action": action, "move_to": None, "post": post,
+            "opinions": shifts}
 
 
 def _mock_reflection(c: dict[str, Any]) -> dict[str, Any]:
-    if c["mood"] < -0.3:
+    ops = c.get("opinions") or {}
+    strongest = max(ops, key=lambda k: abs(stance_of(ops[k])), default=None)
+    if strongest and abs(stance_of(ops[strongest])) >= 0.6:
+        why = ops[strongest].split(": ", 1)[-1]
+        belief = f"The more I see, the surer I am: {why}."
+    elif c["mood"] < -0.3:
         belief = "Bengaluru is becoming too expensive for people like me."
     elif c["mood"] > 0.3:
         belief = "Things are looking up for me in this city."

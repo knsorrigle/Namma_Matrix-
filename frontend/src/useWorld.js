@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import { connect } from './api.js'
 
-const initial = { connected: false, playing: false, bubbles: {}, tick: 0, simDate: '', provider: '', wards: [], city: {}, citizens: {}, feed: [], events: [], lastTick: null }
+const initial = { connected: false, playing: false, bubbles: {}, tick: 0, simDate: '', provider: '', wards: [], city: {}, citizens: {}, feed: [], events: [], opinions: {}, lastTick: null }
 
 function reducer(state, msg) {
   switch (msg.type) {
@@ -18,6 +18,7 @@ function reducer(state, msg) {
         city: msg.city,
         citizens: Object.fromEntries(msg.citizens.map((c) => [c.id, c])),
         events: msg.events,
+        opinions: msg.opinions || {},
       }
     case 'tick': {
       const citizens = { ...state.citizens }
@@ -41,6 +42,7 @@ function reducer(state, msg) {
         bubbles,
         feed: [...msg.feed.slice().reverse(), ...state.feed].slice(0, 100),
         events: [...state.events, ...msg.events.filter((e) => !state.events.some((x) => x.tick === e.tick && x.headline === e.headline))],
+        opinions: msg.opinions || state.opinions,
         lastTick: msg,
       }
     }

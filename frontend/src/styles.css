@@ -115,3 +115,13 @@ ul { margin: 0; padding-left: 18px; font-size: 13px; }
   aside { border-left: none; border-top: 1px solid var(--line); }
   header { flex-wrap: wrap; gap: 8px; }
 }
+
+/* Opinions in the inspector: a bar from the centre, left = disagree, right = agree */
+.opinions { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 8px; }
+.opinion-head { display: grid; grid-template-columns: 96px 1fr 112px; align-items: center; gap: 8px; font-size: 13px; }
+.opinion-head b { font-weight: 600; text-align: right; }
+.bar { position: relative; height: 6px; border-radius: 3px; background: var(--line); }
+.bar::after { content: ''; position: absolute; left: 50%; top: -3px; width: 1px; height: 12px; background: var(--muted); }
+.bar span { position: absolute; top: 0; height: 100%; border-radius: 3px; }
+.why { font-size: 12px; margin-top: 2px; }
+.tag.opinion { background: #2e2550; color: #c4b2ff; }
