@@ -41,7 +41,7 @@ class Simulation:
         self.llm = llm or make_llm(settings)
         self.world = WorldEngine.from_file(settings.data_dir / "wards.sample.json")
         personas = [Persona(**p) for p in json.loads((settings.data_dir / "citizens.sample.json").read_text())["citizens"]]
-        self.minds: dict[str, CitizenMind] = {p.id: CitizenMind(p) for p in personas}
+        self.minds: dict[str, CitizenMind] = {p.id: CitizenMind(p, settings.data_dir) for p in personas}
         self.godmode = GodMode(self.llm, settings.godmode_model)
         self.rng = random.Random(settings.seed)
         self._build_social_graph()

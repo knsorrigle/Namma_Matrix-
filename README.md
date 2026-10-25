@@ -86,6 +86,31 @@ God Mode text ──► parser (LLM, keyword fallback) ──► preview ──�
 
 All shapes passed between parts are in [`docs/contracts.md`](docs/contracts.md).
 
+### Making them sound like Bengalureans
+
+No fine-tuning. Each citizen's prompt carries local context instead:
+
+- **Voice pack** (`backend/data/voice/voice_pack.json`): eight kinds of resident (Gen Z techie,
+  auto and delivery drivers, kirana and darshini owners, long-time residents and more), each
+  with a speaking style, local phrases and an example line per situation. The example sets the
+  tone; the model is told not to copy it. The mock LLM speaks these lines directly.
+- **City pulse** (`backend/data/pulse/`): short anonymised takes on what the city argues about
+  (rent, jobs, layoffs, fares, traffic, floods). A citizen reacting to a rent hike sees two of them.
+
+Both grow from what the team collects, with no APIs and nothing copied:
+
+- **Google Form**: real Bengalureans answer "what would you text your friend if ...". Each answer
+  is matched to a resident type and becomes an example line and slang for it.
+- **Field notes**: we read Reddit, Instagram and real conversations and write one-line takes in our
+  own words. These become the city pulse.
+
+Export both as CSV into `backend/data/survey/` (git ignores that folder), then run
+`python scripts/build_voice.py`. It writes `data/voice/collected.json` and `data/pulse/pulse.json`;
+read both before committing them.
+
+On the map, every citizen is a little character, and what they think pops up in a speech
+bubble above their head: one bubble per ward at a time, posts in yellow.
+
 ## Who owns what
 
 | Area | Owner | Main files |

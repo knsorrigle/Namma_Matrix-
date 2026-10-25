@@ -1,0 +1,39 @@
+{
+  "_note": "City pulse: short, anonymised takes on what Bengalureans argue about, by topic. These sample lines are team-written placeholders. scripts/build_voice.py builds pulse.json from the team's field notes: what we learned reading Reddit, Instagram and real conversations, in our own words, with no usernames and nothing copied.",
+  "source": "team-written placeholder",
+  "topics": {
+    "rent": [
+      "Landlords asking 10 months deposit is normal here and nobody questions it.",
+      "Rents near tech parks jump every time a new company announces a campus.",
+      "Brokers charge a month's rent just to show a flat with a leaking bathroom.",
+      "People move further out to save rent and then lose two hours a day in traffic.",
+      "Bachelors get rejected by landlords for no reason other than being bachelors."
+    ],
+    "jobs": [
+      "New campuses bring jobs, but the roads and water supply never keep up.",
+      "Hiring news is great until you see the traffic on the road to the new office.",
+      "Every new tech park means the nearby darshinis and PGs raise prices.",
+      "Freshers are hopeful again whenever big companies announce hiring."
+    ],
+    "layoffs": [
+      "Layoff season makes everyone check their savings and their notice period.",
+      "When tech jobs go, the auto drivers, PG owners and restaurants feel it next.",
+      "People are tired of companies calling layoffs 'restructuring'."
+    ],
+    "cost": [
+      "Metro fare hikes push people back to bikes and cabs, and traffic gets worse.",
+      "Every fare or fuel hike hits daily-wage workers and students the hardest.",
+      "People say Bengaluru has become as expensive as Mumbai without the transport.",
+      "Taxes on companies always end up being paid by ordinary people somehow."
+    ],
+    "traffic": [
+      "Silk Board is a rite of passage for anyone who has lived here a year.",
+      "An 8 km commute taking over an hour is considered a good day on ORR.",
+      "Metro expansion is the only thing people are genuinely hopeful about."
+    ],
+    "flood": [
+      "One heavy rain and the same underpasses flood every single year.",
+      "People in low-lying areas move their bikes to higher ground when it rains."
+    ]
+  }
+}

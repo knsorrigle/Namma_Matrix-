@@ -47,6 +47,33 @@ main { flex: 1; display: grid; grid-template-columns: 1fr 420px; min-height: 0; 
 }
 .ward-label span { color: var(--accent); font-weight: 600; }
 
+/* Citizens: little characters with speech bubbles */
+.citizen { display: flex; flex-direction: column; align-items: center; } /* maplibre positions it absolutely */
+.citizen .avatar {
+  width: 30px; height: 30px; padding: 0; border-radius: 50%; font-size: 16px; line-height: 1;
+  background: #fff; border: 3px solid var(--mood, #e8b23c); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  display: grid; place-items: center; transition: transform 0.15s;
+}
+.citizen .avatar:hover { transform: scale(1.15); }
+.citizen.selected .avatar { transform: scale(1.3); box-shadow: 0 0 0 3px var(--accent); }
+.citizen.speaking .avatar { animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-3px); } }
+.citizen .bubble {
+  display: none; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  width: max-content; max-width: 220px; background: #fff; color: #1d1d1f; border-radius: 12px;
+  padding: 7px 10px; font-size: 12px; line-height: 1.35; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35); cursor: pointer;
+  animation: pop 0.25s ease-out;
+}
+.citizen .bubble b { display: block; font-size: 11px; color: #6b6b70; margin-bottom: 2px; }
+.citizen .bubble::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 7px solid transparent; border-top-color: #fff;
+}
+.citizen .bubble.post { background: #fff4d6; }
+.citizen .bubble.post::after { border-top-color: #fff4d6; }
+.citizen.speaking .bubble { display: block; }
+@keyframes pop { from { opacity: 0; transform: translateX(-50%) scale(0.85); } }
+
 aside { border-left: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-height: 0; }
 nav { display: flex; border-bottom: 1px solid var(--line); }
 nav button { flex: 1; border: none; border-radius: 0; background: none; padding: 12px 0; color: var(--muted); }

@@ -226,7 +226,7 @@
       "name": "Girish E.",
       "age": 47,
       "gender": "M",
-      "ward_id": "jayanagar",
+      "ward_id": "malleshwaram",
       "job": "vegetable vendor",
       "sector": "retail",
       "income_band": "low",
@@ -241,14 +241,14 @@
         "stubborn"
       ],
       "commutes_by_metro": false,
-      "bio": "47-year-old vegetable vendor in Jayanagar, single parent of a teenager. Speaks Kannada at home. Cares about community and saving money; optimistic and stubborn."
+      "bio": "47-year-old vegetable vendor in Malleshwaram, single parent of a teenager. Speaks Kannada at home. Cares about community and saving money; optimistic and stubborn."
     },
     {
       "id": "c12",
       "name": "Shwetha S.",
       "age": 41,
       "gender": "F",
-      "ward_id": "jayanagar",
+      "ward_id": "malleshwaram",
       "job": "school teacher",
       "sector": "services",
       "income_band": "middle",
@@ -263,14 +263,14 @@
         "sociable"
       ],
       "commutes_by_metro": true,
-      "bio": "41-year-old school teacher in Jayanagar, lives with elderly parents. Speaks Kannada at home. Cares about family first and saving money; quiet and sociable."
+      "bio": "41-year-old school teacher in Malleshwaram, lives with elderly parents. Speaks Kannada at home. Cares about family first and saving money; quiet and sociable."
     },
     {
       "id": "c13",
       "name": "Rahul M.",
       "age": 33,
       "gender": "M",
-      "ward_id": "jayanagar",
+      "ward_id": "malleshwaram",
       "job": "delivery rider",
       "sector": "services",
       "income_band": "low",
@@ -285,14 +285,14 @@
         "optimistic"
       ],
       "commutes_by_metro": false,
-      "bio": "33-year-old delivery rider in Jayanagar, single parent of a teenager. Speaks Hindi at home. Cares about children's education and a good work-life balance; quiet and optimistic."
+      "bio": "33-year-old delivery rider in Malleshwaram, single parent of a teenager. Speaks Hindi at home. Cares about children's education and a good work-life balance; quiet and optimistic."
     },
     {
       "id": "c14",
       "name": "Divya S.",
       "age": 29,
       "gender": "F",
-      "ward_id": "jayanagar",
+      "ward_id": "malleshwaram",
       "job": "QA tester",
       "sector": "it",
       "income_band": "middle",
@@ -307,14 +307,14 @@
         "anxious"
       ],
       "commutes_by_metro": true,
-      "bio": "29-year-old QA tester in Jayanagar, married, one child. Speaks Kannada at home. Cares about career growth and independence; sceptical and anxious."
+      "bio": "29-year-old QA tester in Malleshwaram, married, one child. Speaks Kannada at home. Cares about career growth and independence; sceptical and anxious."
     },
     {
       "id": "c15",
       "name": "Sachin L.",
       "age": 24,
       "gender": "M",
-      "ward_id": "jayanagar",
+      "ward_id": "malleshwaram",
       "job": "machine operator",
       "sector": "manufacturing",
       "income_band": "low",
@@ -329,7 +329,7 @@
         "frugal"
       ],
       "commutes_by_metro": false,
-      "bio": "24-year-old machine operator in Jayanagar, married, two children. Speaks Marathi at home. Cares about a good work-life balance and children's education; stubborn and frugal."
+      "bio": "24-year-old machine operator in Malleshwaram, married, two children. Speaks Marathi at home. Cares about a good work-life balance and children's education; stubborn and frugal."
     },
     {
       "id": "c16",
