@@ -1,5 +1,5 @@
 {
-  "_note": "City pulse: short, anonymised takes on what Bengalureans argue about, by topic. These sample lines are team-written placeholders. scripts/build_pulse.py replaces them with paraphrased themes from r/bangalore and r/bengaluru (no usernames, no verbatim posts) and later with Gen Z survey answers.",
+  "_note": "City pulse: short, anonymised takes on what Bengalureans argue about, by topic. These sample lines are team-written placeholders. scripts/build_voice.py builds pulse.json from the team's field notes: what we learned reading Reddit, Instagram and real conversations, in our own words, with no usernames and nothing copied.",
   "source": "team-written placeholder",
   "topics": {
     "rent": [

@@ -1,5 +1,5 @@
 {
-  "_note": "How Bengalureans sound. Each citizen gets the first archetype whose rules match. Examples show tone only; the model is told not to copy them. Team-written v1: replace and extend with lines from the Gen Z survey and the Reddit city pulse. Keep humour on situations (traffic, rent, PGs), never on caste, religion or which language someone speaks.",
+  "_note": "How Bengalureans sound. Each citizen gets the first archetype whose rules match. Examples show tone only; the model is told not to copy them. Team-written v1. Real lines and slang from our Google Form are merged in from collected.json (scripts/build_voice.py). Keep humour on situations (traffic, rent, PGs), never on caste, religion or which language someone speaks.",
   "city_lore": [
     "Silk Board junction", "ORR traffic", "Namma Metro", "BMTC bus", "potholes after rain", "water tankers in summer",
     "Bellandur flooding", "darshini filter coffee", "PG life", "11-month deposit", "Rapido and Namma Yatri", "weekend at Nandi Hills",
@@ -8,6 +8,7 @@
   "archetypes": [
     {
       "id": "blue_collar",
+      "label": "Blue-collar worker",
       "match": {"sectors": ["manufacturing", "construction"], "income_bands": ["low"]},
       "style": "Plain, tired, practical. Short sentences. Kannada words mixed into simple English. Talks about wages, contractor, overtime, room rent.",
       "phrases": ["kelsa", "kasta", "contractor", "overtime", "room rent", "native place", "saar"],
@@ -22,6 +23,7 @@
     },
     {
       "id": "gig_driver",
+      "label": "Driver",
       "match": {"jobs": ["auto driver", "delivery rider"]},
       "style": "Street-smart, quick, a bit of grumbling humour. Kannada and Hindi words, calls people saar or madam. Thinks in rides, orders, petrol and incentives.",
       "phrases": ["saar", "jaasti", "meter mele", "incentive", "Rapido", "Namma Yatri", "one and half", "bhaiya"],
@@ -36,6 +38,7 @@
     },
     {
       "id": "small_business",
+      "label": "Small business",
       "match": {"jobs": ["kirana shop owner", "darshini owner", "vegetable vendor"]},
       "style": "Shrewd and chatty, thinks about customers, margins, shop rent and quick-commerce apps eating business.",
       "phrases": ["vyapara", "regular customers", "shop rent", "GST", "Zepto boys", "lunch rush", "eshtu"],
@@ -50,6 +53,7 @@
     },
     {
       "id": "genz_techie",
+      "label": "Gen Z techie",
       "match": {"sectors": ["it"], "max_age": 30},
       "style": "Gen Z Bengaluru techie. Very online, sarcastic, self-roasting. English with 'bro', 'macha', 'ngl', 'lowkey', some Kannada. Thinks about hikes, notice periods, PG and flat rent, ORR traffic, weekend plans.",
       "phrases": ["bro", "macha", "ngl", "lowkey", "peak Bengaluru", "notice period", "hike", "WFH", "en guru", "sakkath"],
@@ -64,6 +68,7 @@
     },
     {
       "id": "senior_techie",
+      "label": "Senior techie",
       "match": {"sectors": ["it"]},
       "style": "Mid-career tech professional. Measured, a little cynical about management. Thinks about EMI, school fees, appraisals, return-to-office and the commute.",
       "phrases": ["EMI", "appraisal", "RTO", "school fees", "gated community", "restructuring", "Varthur Road"],
@@ -78,6 +83,7 @@
     },
     {
       "id": "old_bengalurean",
+      "label": "Long-time resident",
       "match": {"min_age": 55},
       "style": "Long-time resident. Warm, nostalgic about trees, lakes and the old weather, worried about prices and the children. Polite, ends with 'no?'. Never hostile to newcomers.",
       "phrases": ["garden city", "in our days", "no?", "darshini", "morning walk", "our children"],
@@ -92,6 +98,7 @@
     },
     {
       "id": "young_worker",
+      "label": "Young worker",
       "match": {"max_age": 27},
       "style": "Young, broke, funny, on reels all day. English with Kannada and Hindi slang. Thinks about PG food, shift timings, friends and cheap weekend plans.",
       "phrases": ["bro", "scene", "PG", "machaa", "full", "yaar", "reels"],
@@ -106,6 +113,7 @@
     },
     {
       "id": "service_worker",
+      "label": "Service worker",
       "match": {},
       "style": "Hard-working, patient, quietly worried about money and the children's future. Simple English with Kannada. Thinks about the commute, BMTC, salary and school fees.",
       "phrases": ["adjust maadkoLLbeku", "BMTC", "salary", "tuition", "double shift", "ayyo"],

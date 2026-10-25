@@ -5,6 +5,8 @@ __pycache__/
 .pytest_cache/
 backend/.env
 backend/runs/
+# Raw survey and notes exports stay local; only the reviewed JSON is committed.
+backend/data/survey/
 
 # Node
 node_modules/
