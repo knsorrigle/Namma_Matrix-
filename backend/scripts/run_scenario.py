@@ -24,6 +24,7 @@ from namma.sim import Simulation  # noqa: E402
 
 async def main(args: argparse.Namespace) -> None:
     sim = Simulation(Settings())
+    start, _ = sim.opinion_summary()
     for _ in range(args.ticks):
         if args.command and sim.world.tick == args.at:
             parsed = await sim.godmode.parse(args.command, list(sim.world.wards.values()))
@@ -37,9 +38,15 @@ async def main(args: argparse.Namespace) -> None:
         rents = "  ".join(f"{w.id[:6]} Rs{w.rent:,.0f} mood {w.mood:+.2f}" for w in ev.wards)
         print(f"\ntick {ev.tick} {ev.sim_date}  thinking {ev.thinking}  llm calls {ev.llm_calls}  {ev.tick_seconds}s\n  {rents}")
         for u in ev.citizens[: args.show]:
-            print(f"  {sim.minds[u.id].persona.name:16} [{u.action}] {u.thought}")
+            moved = ", ".join(f"{k} {v:+.2f}" for k, v in u.opinion_shifts.items())
+            print(f"  {sim.minds[u.id].persona.name:16} [{u.action}] {u.thought}" + (f"  ({moved})" if moved else ""))
         for p in ev.feed:
             print(f"  POST {p.name}: {p.text}")
+    end, _ = sim.opinion_summary()
+    print("\nWhat the city thinks (start -> end): agree / disagree / spread")
+    for k, b in end.items():
+        a = start[k]
+        print(f"  {k:14} {a.agree:4.0%} -> {b.agree:4.0%}   {a.disagree:4.0%} -> {b.disagree:4.0%}   {a.spread:.2f} -> {b.spread:.2f}")
     s = sim.llm.stats
     print(f"\nLLM calls {s.calls}, failures {s.failures}, prompt tokens {s.prompt_tokens}, completion tokens {s.completion_tokens}")
     print(f"replay saved to {sim.run_file}")

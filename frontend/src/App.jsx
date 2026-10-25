@@ -63,7 +63,7 @@ export default function App() {
           {tab === 'God Mode' && <GodModePanel wards={world.wards} />}
           {tab === 'Citizen' && <CitizenInspector id={selected} tick={world.tick} wards={world.wards} citizens={world.citizens} onSelect={select} />}
           {tab === 'Feed' && <Feed feed={world.feed} events={world.events} wards={world.wards} />}
-          {tab === 'City' && <CityPanel wards={world.wards} startWards={startWards.current} city={world.city} lastTick={world.lastTick} />}
+          {tab === 'City' && <CityPanel wards={world.wards} startWards={startWards.current} city={world.city} opinions={world.opinions} lastTick={world.lastTick} />}
         </aside>
       </main>
     </div>

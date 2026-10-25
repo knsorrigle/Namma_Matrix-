@@ -23,6 +23,15 @@ CITY_METRICS = ("corporate_tax", "metro_fare", "fuel_price")
 Action = Literal["stay", "consider_moving", "move", "look_for_job", "protest", "post"]
 IncomeBand = Literal["low", "middle", "high"]
 
+# What citizens hold opinions about: each is a statement they agree (+1) or disagree (-1) with.
+OPINION_TOPICS = {
+    "big_companies": "Big tech companies coming in is good for people like me.",
+    "government": "The government is running the city well.",
+    "metro": "Namma Metro is worth it for people like me.",
+    "my_area": "My area is a good place to live.",
+    "future_here": "I see my future in Bengaluru.",
+}
+
 
 # ---------------------------------------------------------------- world ----
 
@@ -74,9 +83,17 @@ class Persona(BaseModel):
     bio: str = ""
 
 
+class Opinion(BaseModel):
+    """Where a citizen stands on one topic, and why."""
+
+    stance: float = Field(0.0, ge=-1, le=1, description="-1 strongly disagree, +1 strongly agree")
+    confidence: float = Field(0.5, ge=0, le=1, description="How hard it is to change their mind")
+    why: str = ""
+
+
 class MemoryItem(BaseModel):
     tick: int
-    kind: Literal["observation", "thought", "reflection", "action"]
+    kind: Literal["observation", "thought", "reflection", "action", "opinion"]
     text: str
     importance: int = Field(ge=1, le=10)
 
@@ -89,6 +106,7 @@ class CitizenState(BaseModel):
     mood: float = Field(0.0, ge=-1, le=1)
     employed: bool = True
     beliefs: list[str] = Field(default_factory=list)
+    opinions: dict[str, Opinion] = Field(default_factory=dict, description="By topic, see OPINION_TOPICS")
     last_thought: str = ""
     last_action: Action = "stay"
     considering_move: bool = False
@@ -162,6 +180,16 @@ class CitizenUpdate(BaseModel):
     action: Action
     mood: float
     post: str | None = None
+    opinion_shifts: dict[str, float] = Field(default_factory=dict, description="How far each opinion moved this tick")
+
+
+class TopicStats(BaseModel):
+    """How the city feels about one opinion topic."""
+
+    mean: float
+    agree: float = Field(description="Share of citizens at +0.2 or more")
+    disagree: float = Field(description="Share of citizens at -0.2 or less")
+    spread: float = Field(description="Standard deviation of stances: high means the city is split")
 
 
 class FeedPost(BaseModel):
@@ -183,6 +211,8 @@ class TickEvent(BaseModel):
     citizens: list[CitizenUpdate]
     feed: list[FeedPost]
     events: list[WorldEvent]
+    opinions: dict[str, TopicStats] = Field(default_factory=dict, description="City-wide, by topic")
+    ward_opinions: dict[str, dict[str, float]] = Field(default_factory=dict, description="Average stance by ward, then topic")
     thinking: int = Field(description="Citizens that called the LLM this tick")
     llm_calls: int
     tick_seconds: float

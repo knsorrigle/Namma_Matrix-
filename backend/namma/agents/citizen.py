@@ -11,8 +11,9 @@ import json
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from ..contracts import CitizenState, CitizenUpdate, Persona, WorldEvent
+from ..contracts import OPINION_TOPICS, CitizenState, CitizenUpdate, Persona, WorldEvent
 from .memory import MemoryStream
+from .opinions import LABELS, apply_shift, opinion_card, seed_opinions, social_pull
 from .voice import voice_card
 
 if TYPE_CHECKING:
@@ -31,10 +32,33 @@ class CitizenMind:
         self.memory = MemoryStream()
         self.friends: list[str] = []
         self.inbox: list[str] = []  # messages from friends, read on the next tick
+        self.heard: list[tuple[str, str, float]] = []  # (friend, topic, their stance) from posts
+        self.last_topics: list[str] = []  # opinions that moved in the latest reaction
         self._seen_rent: float | None = None
         self._seen_ward: str | None = None
         self._seen_jobs: float | None = None
         self._seen_city: dict[str, float] = {}
+
+    def seed_opinions(self, rent_ratio: float, seed: int) -> None:
+        self.state.opinions = seed_opinions(self.persona, rent_ratio, seed)
+
+    def listen(self, friend: str, topic: str, their_stance: float, tick: int, how: str = "post") -> float:
+        """A friend's view pulls on this citizen's opinion, if they're close enough to listen."""
+        op = self.state.opinions.get(topic)
+        if not op:
+            return 0.0
+        change = social_pull(op, their_stance, self.persona)
+        if abs(change) >= (0.03 if how == "post" else 0.05):  # everyday chats only stick when they move you
+            verb = "Reading" if how == "post" else "Talking with"
+            what = f"{friend}'s post" if how == "post" else friend
+            self.memory.add(tick, "opinion", f"{verb} {what} changed how I see {LABELS[topic]} a little.", 3)
+        return change
+
+    def take_in_posts(self, tick: int) -> None:
+        """Friends' posts read this tick pull on the opinions they were about."""
+        for friend, topic, stance in self.heard:
+            self.listen(friend, topic, stance, tick)
+        self.heard = []
 
     # -------------------------------------------------------- perceive ----
 
@@ -98,6 +122,7 @@ class CitizenMind:
             "commutes_by_metro": p.commutes_by_metro,
             "mood": round(self.state.mood, 2),
             "beliefs": self.state.beliefs[-2:],
+            "opinions": opinion_card(self.state.opinions),
             "memories": [m.text for m in memories],
             "observations": observations,
             **(voice_card(p, observations, self.data_dir) if self.data_dir else {}),
@@ -127,6 +152,8 @@ class CitizenMind:
         if action != "stay":
             self.memory.add(tick, "action", f"I decided to {action.replace('_', ' ')}.", 5)
 
+        shifts = self.apply_opinions(r.get("opinions"), tick)
+
         post = r.get("post")
         post = str(post).strip()[:280] if post else None
         return CitizenUpdate(
@@ -136,7 +163,32 @@ class CitizenMind:
             action=action,
             mood=round(self.state.mood, 3),
             post=post,
+            opinion_shifts=shifts,
         ), (move_to if action == "move" else None)
+
+    def apply_opinions(self, proposed, tick: int) -> dict[str, float]:
+        """Take the model's proposed opinion shifts and run them through this person's psychology."""
+        if isinstance(proposed, dict):  # small models sometimes answer {"topic": {...}} or {"topic": 0.1}
+            proposed = [{"topic": k, **(v if isinstance(v, dict) else {"shift": v})} for k, v in proposed.items()]
+        shifts: dict[str, float] = {}
+        for item in proposed if isinstance(proposed, list) else []:
+            if not isinstance(item, dict) or item.get("topic") not in self.state.opinions or item["topic"] in shifts:
+                continue
+            try:
+                shift = float(item.get("shift") or 0)
+            except (TypeError, ValueError):
+                continue
+            topic, why = item["topic"], str(item.get("why") or "").strip()
+            applied = apply_shift(self.state.opinions[topic], shift, why, self.persona)
+            if applied:
+                shifts[topic] = applied
+            if abs(applied) >= 0.05:
+                more = "more" if applied > 0 else "less"
+                text = OPINION_TOPICS[topic].rstrip(".")
+                statement = text if text.startswith("I ") else text[0].lower() + text[1:]
+                self.memory.add(tick, "opinion", f"I'm {more} convinced that {statement}" + (f": {why}" if why else "."), 6)
+        self.last_topics = sorted(shifts, key=lambda k: -abs(shifts[k]))
+        return shifts
 
     def wants_reflection(self) -> bool:
         return self.memory.importance_since_reflection >= 25
@@ -151,8 +203,15 @@ class CitizenMind:
 
 REACT_SYSTEM = """You simulate residents of Bengaluru, India, in 2026 for a university research simulation.
 Every resident is fictional. For each resident, write their private inner thought, in first person,
-reacting to what they just noticed, consistent with their persona, memories and beliefs.
+reacting to what they just noticed, consistent with their persona, memories, beliefs and opinions.
 Rules:
+- Residents think for themselves. "opinions" shows where each one stands on each topic and why; their thought,
+  action and post must fit those opinions. The same news can push two residents in opposite directions.
+- In the "opinions" you return, list only topics today's news really touches (often none, at most 2).
+  shift is between -0.3 and 0.3: positive means they now agree more with the topic's statement.
+  why is their own reason, first person, under 15 words. Stubborn residents shift less.
+- Actions follow from opinions and mood: a resident who strongly distrusts the government and is upset may
+  protest; one who dislikes their area and is struggling may consider moving.
 - 1 or 2 sentences per thought, in the resident's own voice: follow "voice.style" and use at most one or two
   of "voice.phrases" when they fit. "voice.example" only shows the tone: never copy it.
 - "local_chatter" is what people in the city are saying about this. Let it shape the opinion, don't quote it.
@@ -163,17 +222,20 @@ Rules:
 - action is one of: stay, consider_moving, move, look_for_job, protest, post.
 - move_to is a ward id from the list only when action is move, otherwise null.
 - post is a short public social media post, or null. Most residents do not post.
-Return only JSON: {"citizens": [{"id", "thought", "mood_change", "action", "move_to", "post"}]}"""
+Return only JSON: {"citizens": [{"id", "thought", "mood_change", "action", "move_to", "post",
+"opinions": [{"topic", "shift", "why"}]}]}"""
 
 REFLECT_SYSTEM = """You simulate residents of Bengaluru, India, for a research simulation. Each resident is fictional.
-For each resident, read their recent memories and write ONE belief they now hold about their life or city,
-in first person, under 25 words. Never mention or stereotype caste or religion.
+For each resident, read their recent memories and opinions and write ONE belief they now hold about their
+life or city, in first person, under 25 words. It should follow from what happened to them, not repeat an opinion. Never mention or stereotype caste or religion.
 Return only JSON: {"citizens": [{"id", "belief"}]}"""
 
 
 def react_user_prompt(cards: list[dict], wards: list[dict]) -> str:
     return (
-        "Wards (id: name, rent): "
+        "Opinion topics (a positive stance means they agree): "
+        + "; ".join(f"{k}: {v}" for k, v in OPINION_TOPICS.items())
+        + "\n\nWards (id: name, rent): "
         + "; ".join(f"{w['id']}: {w['name']}, Rs {w['rent']:,.0f}" for w in wards)
         + "\n\nResidents:\n"
         + "\n".join(json.dumps(c, ensure_ascii=False) for c in cards)

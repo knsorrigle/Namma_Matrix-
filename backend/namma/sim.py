@@ -17,8 +17,10 @@ from .agents.citizen import (
     reflect_user_prompt,
 )
 from .agents.llm import LLM, make_llm
+from .agents.opinions import opinion_card, summarize
 from .config import Settings
 from .contracts import (
+    OPINION_TOPICS,
     CitizenUpdate,
     CitizenView,
     FeedPost,
@@ -45,6 +47,10 @@ class Simulation:
         self.godmode = GodMode(self.llm, settings.godmode_model)
         self.rng = random.Random(settings.seed)
         self._build_social_graph()
+        # Everyone starts with their own opinions, from who they are and where they live.
+        avg_rent = sum(w.rent for w in self.world.wards.values()) / len(self.world.wards)
+        for m in self.minds.values():
+            m.seed_opinions(self.world.wards[m.persona.ward_id].rent / avg_rent, settings.seed)
         self._pending_events: list[WorldEvent] = []
         self._lock = asyncio.Lock()
         self.history: list[TickEvent] = []
@@ -92,14 +98,17 @@ class Simulation:
                 obs = mind.perceive(self.world, events)
                 for text, importance in obs:
                     mind.memory.add(self.world.tick, "observation", text, importance)
+                mind.take_in_posts(self.world.tick)
                 if obs:
                     noticed[mind.persona.id] = obs
 
+            self._chat()
             thinkers = self._pick_thinkers(noticed)
             updates = await self._react(thinkers, noticed)
             await self._reflect()
             feed = self._spread_posts(updates)
             self._update_ward_mood()
+            opinions, ward_opinions = self.opinion_summary()
 
             event = TickEvent(
                 tick=self.world.tick,
@@ -110,6 +119,8 @@ class Simulation:
                 citizens=updates,
                 feed=feed,
                 events=events,
+                opinions=opinions,
+                ward_opinions=ward_opinions,
                 thinking=len(thinkers),
                 llm_calls=self.llm.stats.calls - calls_before,
                 tick_seconds=round(time.perf_counter() - started, 3),
@@ -168,6 +179,7 @@ class Simulation:
         if not due:
             return
         cards = [{"id": m.persona.id, "name": m.persona.name, "mood": m.state.mood,
+                  "opinions": opinion_card(m.state.opinions),
                   "memories": [x.text for x in m.memory.recent(12)]} for m in due]
         try:
             raw = await self.llm.complete_json("reflect", REFLECT_SYSTEM, reflect_user_prompt(cards), {"citizens": cards})
@@ -191,9 +203,36 @@ class Simulation:
                 continue
             author = self.minds[u.id]
             feed.append(FeedPost(tick=self.world.tick, citizen_id=u.id, name=author.persona.name, ward_id=u.ward_id, text=u.post))
+            # A post says where the author stands, on what moved them most (or what they feel strongest about).
+            ops = author.state.opinions
+            topic = (author.last_topics or [max(ops, key=lambda k: abs(ops[k].stance))])[0] if ops else None
             for fid in author.friends:
                 self.minds[fid].inbox.append(f"Your friend {author.persona.name} posted: \"{u.post}\"")
+                if topic:
+                    self.minds[fid].heard.append((author.persona.name, topic, ops[topic].stance))
         return feed
+
+    def _chat(self) -> None:
+        """Everyday talk: some citizens talk a topic over with a friend, and both views move a little."""
+        tick = self.world.tick
+        for m in self.minds.values():
+            if not m.friends or self.rng.random() >= self.settings.chat_rate:
+                continue
+            friend = self.minds[self.rng.choice(m.friends)]
+            topic = self.rng.choice(list(OPINION_TOPICS))
+            if topic not in m.state.opinions or topic not in friend.state.opinions:
+                continue
+            mine, theirs = m.state.opinions[topic].stance, friend.state.opinions[topic].stance
+            m.listen(friend.persona.name, topic, theirs, tick, how="chat")
+            friend.listen(m.persona.name, topic, mine, tick, how="chat")
+
+    def opinion_summary(self) -> tuple[dict, dict]:
+        city = summarize(m.state.opinions for m in self.minds.values())
+        by_ward = {}
+        for wid in self.world.wards:
+            stats = summarize(m.state.opinions for m in self.minds.values() if m.state.ward_id == wid)
+            by_ward[wid] = {k: v.mean for k, v in stats.items()}
+        return city, by_ward
 
     def _update_ward_mood(self) -> None:
         for wid, ward in self.world.wards.items():

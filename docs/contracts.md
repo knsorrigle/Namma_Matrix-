@@ -39,7 +39,34 @@ City-wide levers live in `city`: `corporate_tax` (percent), `metro_fare` (INR), 
 - Names use a first name and an initial only, so no surname hints at caste or community.
 - `income_band`: `low`, `middle` or `high`. `sector` must be one of the five sectors.
 
-## 3. God Mode change (owner: Alpharnog)
+## 3. Citizen state and opinions (owner: Alpharnog)
+
+What changes about a citizen during a run, as `GET /api/citizens/{id}` returns it under `state`:
+
+```json
+{
+  "id": "c01", "ward_id": "whitefield", "mood": 0.22, "employed": true,
+  "beliefs": ["The more I see, the surer I am: new companies hiring nearby means better offers for me."],
+  "opinions": {
+    "big_companies": {"stance": 0.88, "confidence": 0.64, "why": "new companies hiring nearby means better offers for me"},
+    "my_area": {"stance": -0.19, "confidence": 0.42, "why": "rents here keep climbing faster than my pay"}
+  },
+  "last_thought": "...", "last_action": "stay", "considering_move": false
+}
+```
+
+- Every citizen has an opinion on each of five topics (`OPINION_TOPICS` in `contracts.py`), each a
+  statement they agree or disagree with:
+  `big_companies` (big tech companies coming in is good for people like me),
+  `government` (the government is running the city well),
+  `metro` (Namma Metro is worth it for people like me),
+  `my_area` (my area is a good place to live),
+  `future_here` (I see my future in Bengaluru).
+- `stance`: -1 strongly disagree to +1 strongly agree. `confidence`: 0 to 1, how hard it is to change
+  their mind. `why`: their latest reason, first person.
+- Memory items have a `kind` of `observation`, `thought`, `reflection`, `action` or `opinion`.
+
+## 4. God Mode change (owner: Alpharnog)
 
 ```json
 {"target": "whitefield", "metric": "jobs.it", "op": "mul", "value": 1.15, "reason": "three MNC campuses"}
@@ -56,7 +83,7 @@ API: `POST /api/godmode/parse {"text"}` returns a preview
 `{"text", "headline", "changes", "warnings", "parser"}`. The user can edit it, then
 `POST /api/godmode/apply {"text", "headline", "changes"}` applies it.
 
-## 4. Tick stream (owner: Alpharnog, read by USMAN)
+## 5. Tick stream (owner: Alpharnog, read by USMAN)
 
 `/ws` sends a `hello` message with the full state on connect, then one `tick` per tick:
 
@@ -64,12 +91,20 @@ API: `POST /api/godmode/parse {"text"}` returns a preview
 {
   "type": "tick", "tick": 12, "sim_date": "2026-11-14",
   "wards": [ /* Ward */ ], "city": { /* city levers */ },
-  "citizens": [{"id": "c01", "ward_id": "whitefield", "thought": "...", "action": "consider_moving", "mood": -0.3, "post": null}],
+  "citizens": [{"id": "c01", "ward_id": "whitefield", "thought": "...", "action": "consider_moving", "mood": -0.3, "post": null,
+                "opinion_shifts": {"my_area": -0.12}}],
   "feed": [{"tick": 12, "citizen_id": "c05", "name": "Anusha Q.", "ward_id": "whitefield", "text": "..."}],
   "events": [{"tick": 12, "kind": "godmode", "headline": "...", "wards": ["whitefield"]}],
+  "opinions": {"big_companies": {"mean": 0.09, "agree": 0.28, "disagree": 0.32, "spread": 0.38}},
+  "ward_opinions": {"whitefield": {"big_companies": 0.36, "my_area": -0.02}},
   "thinking": 7, "llm_calls": 2, "tick_seconds": 4.1
 }
 ```
+
+- `opinions`: city-wide, per topic. `agree` and `disagree` are the shares of citizens at +0.2 or more and
+  -0.2 or less; `spread` is the standard deviation of stances, so a rising spread means the city is splitting.
+- `ward_opinions`: average stance per ward and topic, for an opinion map. `hello` carries `opinions` too.
+- `opinion_shifts`: how far each opinion of that citizen moved this tick, after their psychology filtered it.
 
 - `citizens` lists only the citizens who thought this tick.
 - `actions`: `stay`, `consider_moving`, `move`, `look_for_job`, `protest`, `post`.

@@ -23,5 +23,7 @@ def test_godmode_ripple_reaches_citizens(settings):
     assert sim.world.wards["whitefield"].rent > calm.wards[0].rent
     assert all(t.thinking <= settings.max_thinkers_per_tick for t in ticks)
     assert sim.run_file.exists() and len(sim.run_file.read_text().splitlines()) == 9
-    view = sim.citizen_view(next(iter(whitefield_minds)))
-    assert any("News:" in m.text for m in view.memories)
+    cid = sorted(whitefield_minds)[0]
+    assert sim.citizen_view(cid).memories
+    # Opinion changes are memories too, so look past the inspector's most recent 30.
+    assert any("News:" in m.text for m in sim.minds[cid].memory.recent(500))

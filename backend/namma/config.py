@@ -50,3 +50,5 @@ class Settings:
     idle_thinkers_per_tick: int = field(default_factory=lambda: int(_env("IDLE_THINKERS", "2")))
     tick_interval_s: float = field(default_factory=lambda: float(_env("TICK_INTERVAL", "3")))
     seed: int = field(default_factory=lambda: int(_env("SEED", "42")))
+    # Chance per tick that a citizen talks a topic over with a friend (no LLM call).
+    chat_rate: float = field(default_factory=lambda: float(_env("CHAT_RATE", "0.15")))

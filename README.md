@@ -46,15 +46,16 @@ cp backend/.env.example backend/.env       # then set LLM_PROVIDER=openai
 cd backend && python scripts/check_llm.py  # one God Mode parse + one citizen batch, with timings
 ```
 
-`OLLAMA_CONTEXT_LENGTH=8192` matters: a batch of five citizens is about 1,300 prompt
-tokens plus the answer, and older Ollama versions cut prompts at 2,048 tokens without
-telling you. Restart the backend after changing `.env`. The same settings work for Groq
+`OLLAMA_CONTEXT_LENGTH=8192` matters: a batch of five citizens is about 2,500 prompt
+tokens (persona, memories, opinions and voice) plus the answer, and older Ollama versions
+cut prompts at 2,048 tokens without telling you. Restart the backend after changing `.env`. The same settings work for Groq
 or any OpenAI-compatible API; see `backend/.env.example`.
 
 Cost per tick: with at most 10 thinking citizens in batches of 5, a tick is 2 LLM calls,
-roughly 2,700 prompt tokens and 700 output tokens (estimated from the prompt sizes;
-`check_llm.py` prints your real numbers). On a laptop that is about half a minute per busy
-tick, and calm ticks need only one small call.
+roughly 5,000 prompt tokens and 1,000 output tokens (estimated from the prompt sizes;
+`check_llm.py` prints your real numbers). On a laptop that can be close to a minute per busy
+tick, so for a live demo set `MAX_THINKERS=5`, or record a replay first. Calm ticks need
+only one small call.
 
 ### Run a scenario without the dashboard
 
@@ -93,6 +94,38 @@ God Mode text ──► parser (LLM, keyword fallback) ──► preview ──�
 - **Dashboard** (`frontend/`): React + MapLibre. Map, God Mode, citizen inspector, feed, city table.
 
 All shapes passed between parts are in [`docs/contracts.md`](docs/contracts.md).
+
+### How citizens think
+
+Each citizen is a small mind built around their persona (age, job, income, family, values,
+traits). Every tick it can:
+
+1. **Perceive** only what it would notice: its own rent moving 3% or more, jobs in its own
+   sector, city-wide fares and taxes, news about its ward, and friends' posts.
+2. **Remember**: everything noticed, thought and decided goes into a memory stream. The most
+   relevant memories (recent, important, on topic) go back into the next prompt.
+3. **Hold opinions**: a stance from -1 to +1 on five topics (big companies, the government,
+   Namma Metro, their area, their future in Bengaluru), each with a confidence and a reason in
+   their own words. Stances start from the persona: an IT worker leans towards new tech parks,
+   a low-income renter or someone who values a clean environment leans against them.
+4. **Think and act**: the model writes a first-person thought, a mood change, an action
+   (stay, consider moving, move, look for a job, protest, post) and any opinion shifts with
+   reasons. Thoughts and actions have to fit the citizen's opinions.
+5. **Filter through their psychology** (`backend/namma/agents/opinions.py`): evidence that
+   agrees with what they already think lands, with diminishing returns near the extremes;
+   evidence against it is discounted by their confidence (confirmation bias); stubborn people
+   move less, curious and sociable people more.
+6. **Influence each other**: posts reach friends, and some friends talk a topic over every tick
+   with no model call. Friends pull each other's views closer, but only when they are not too
+   far apart already (bounded confidence, after Deffuant et al. 2000). That is how echo chambers
+   and a split city can emerge without anyone being told to form them.
+7. **Reflect**: after enough important experiences, a citizen forms a lasting belief.
+
+The same God Mode command moves different people in different directions. "Three MNCs open
+in Whitefield" makes Whitefield techies more pro-company and surer of their future, while
+low-income renters there start disliking their area as rent climbs. The City tab shows who
+agrees and disagrees on each topic and how split the city is; the inspector shows each
+citizen's opinions and why.
 
 ### Making them sound like Bengalureans
 
