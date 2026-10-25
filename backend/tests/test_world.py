@@ -24,7 +24,7 @@ def test_more_jobs_push_rent_up_gradually():
     for _ in range(10):
         world.step()
     assert start < after_one < world.wards["whitefield"].rent
-    assert world.wards["jayanagar"].rent == pytest.approx(19000, rel=0.01)
+    assert world.wards["malleshwaram"].rent == pytest.approx(19000, rel=0.01)
 
 
 def test_corporate_tax_shrinks_it_jobs():

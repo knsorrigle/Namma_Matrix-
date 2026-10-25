@@ -49,7 +49,7 @@ export default function App() {
       </header>
       <main>
         <section className="map-wrap">
-          <MapView wards={world.wards} citizens={world.citizens} metric={metric} selectedId={selected} onSelect={select} />
+          <MapView wards={world.wards} citizens={world.citizens} bubbles={world.bubbles} tick={world.tick} metric={metric} selectedId={selected} onSelect={select} />
           <div className="metric-picker">
             {Object.entries(METRICS).map(([k, m]) => (
               <button key={k} className={metric === k ? 'active' : ''} onClick={() => setMetric(k)}>{m.label}</button>

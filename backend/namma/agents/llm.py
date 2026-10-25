@@ -149,6 +149,12 @@ def _mock_reaction(c: dict[str, Any], cheapest_ward: str | None = None) -> dict[
         mood = -0.05
     else:
         thought = f"Normal day. Work, traffic, chai, home. {first} needs a holiday."
+    # Speak in the citizen's Bengaluru voice when the voice pack has a line for this situation.
+    example = (c.get("voice") or {}).get("example")
+    if example:
+        thought = example
+        if post:
+            post = example
     return {"id": c["id"], "thought": thought, "mood_change": mood, "action": action, "move_to": None, "post": post}
 
 

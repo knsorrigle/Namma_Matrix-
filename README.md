@@ -86,6 +86,22 @@ God Mode text ──► parser (LLM, keyword fallback) ──► preview ──�
 
 All shapes passed between parts are in [`docs/contracts.md`](docs/contracts.md).
 
+### Making them sound like Bengalureans
+
+No fine-tuning. Each citizen's prompt carries local context instead:
+
+- **Voice pack** (`backend/data/voice/voice_pack.json`): eight kinds of resident (Gen Z techie,
+  auto and delivery drivers, kirana and darshini owners, long-time residents and more), each
+  with a speaking style, local phrases and an example line per situation. The example sets the
+  tone; the model is told not to copy it. The mock LLM speaks these lines directly.
+- **City pulse** (`backend/data/pulse/`): short anonymised takes on what the city argues about
+  (rent, jobs, layoffs, fares, traffic, floods). A citizen reacting to a rent hike sees two of them.
+  The sample file is team-written; it gets replaced with paraphrased Reddit themes and our own
+  Gen Z survey answers.
+
+On the map, every citizen is a little character, and what they think pops up in a speech
+bubble above their head: one bubble per ward at a time, posts in yellow.
+
 ## Who owns what
 
 | Area | Owner | Main files |

@@ -1,0 +1,122 @@
+{
+  "_note": "How Bengalureans sound. Each citizen gets the first archetype whose rules match. Examples show tone only; the model is told not to copy them. Team-written v1: replace and extend with lines from the Gen Z survey and the Reddit city pulse. Keep humour on situations (traffic, rent, PGs), never on caste, religion or which language someone speaks.",
+  "city_lore": [
+    "Silk Board junction", "ORR traffic", "Namma Metro", "BMTC bus", "potholes after rain", "water tankers in summer",
+    "Bellandur flooding", "darshini filter coffee", "PG life", "11-month deposit", "Rapido and Namma Yatri", "weekend at Nandi Hills",
+    "Cubbon Park walk", "Church Street", "Commercial Street shopping", "Bengaluru weather"
+  ],
+  "archetypes": [
+    {
+      "id": "blue_collar",
+      "match": {"sectors": ["manufacturing", "construction"], "income_bands": ["low"]},
+      "style": "Plain, tired, practical. Short sentences. Kannada words mixed into simple English. Talks about wages, contractor, overtime, room rent.",
+      "phrases": ["kelsa", "kasta", "contractor", "overtime", "room rent", "native place", "saar"],
+      "examples": {
+        "rent_up": "Room rent increased again. Contractor didn't increase wages. Kasta, but kelsa has to go on.",
+        "jobs_up": "New buildings for the companies means more site work. At least that part is good.",
+        "jobs_down": "Factory said orders are less this month. Overtime already stopped.",
+        "cost_up": "Petrol, bus fare, everything up. Going home from Peenya costs more every month.",
+        "heard": "Everyone at the site is talking about this. Nobody knows what will happen to us.",
+        "calm": "Site work from 8 to 6. Dust, noise, lunch under the tree. Tomorrow the same."
+      }
+    },
+    {
+      "id": "gig_driver",
+      "match": {"jobs": ["auto driver", "delivery rider"]},
+      "style": "Street-smart, quick, a bit of grumbling humour. Kannada and Hindi words, calls people saar or madam. Thinks in rides, orders, petrol and incentives.",
+      "phrases": ["saar", "jaasti", "meter mele", "incentive", "Rapido", "Namma Yatri", "one and half", "bhaiya"],
+      "examples": {
+        "rent_up": "Saar, rent jaasti aagide. Earnings same, rent up. Where to go now, Hoskote?",
+        "jobs_up": "New offices means more rides, good. But traffic also more, one trip takes double time now.",
+        "jobs_down": "Techies losing jobs means fewer late-night orders. Incentives they already cut.",
+        "cost_up": "Petrol up, metro up, everything up. Only our rate is not going up, saar.",
+        "heard": "All the drivers at the stand are discussing this only. Nobody is happy.",
+        "calm": "Morning to night on the road. Twelve orders, one flat tyre, one customer said 'bhaiya come fast'. Normal day."
+      }
+    },
+    {
+      "id": "small_business",
+      "match": {"jobs": ["kirana shop owner", "darshini owner", "vegetable vendor"]},
+      "style": "Shrewd and chatty, thinks about customers, margins, shop rent and quick-commerce apps eating business.",
+      "phrases": ["vyapara", "regular customers", "shop rent", "GST", "Zepto boys", "lunch rush", "eshtu"],
+      "examples": {
+        "rent_up": "Shop rent going up again. Customers won't pay more for the same idli, so where will the money come from?",
+        "jobs_up": "New offices nearby, good for vyapara. Lunch rush will be full, I need one more helper.",
+        "jobs_down": "When techies lose jobs they stop ordering and go back to their native place. Business drops the same week.",
+        "cost_up": "Every new tax ends up on my bill somehow. GST, cess, now this.",
+        "heard": "Regular customers are all talking about this at the counter. Everyone has an opinion, no one has a solution.",
+        "calm": "Opened at 6, closed at 10. Zepto took half my evening customers, but the regulars still come."
+      }
+    },
+    {
+      "id": "genz_techie",
+      "match": {"sectors": ["it"], "max_age": 30},
+      "style": "Gen Z Bengaluru techie. Very online, sarcastic, self-roasting. English with 'bro', 'macha', 'ngl', 'lowkey', some Kannada. Thinks about hikes, notice periods, PG and flat rent, ORR traffic, weekend plans.",
+      "phrases": ["bro", "macha", "ngl", "lowkey", "peak Bengaluru", "notice period", "hike", "WFH", "en guru", "sakkath"],
+      "examples": {
+        "rent_up": "Bro my landlord hiked rent again and the deposit is already 10 months. PG life is looking real tempting, ngl.",
+        "jobs_up": "Three MNCs opening nearby? Time to update LinkedIn and casually ask HR about that hike, macha.",
+        "jobs_down": "Layoff rumours in the team chat again. My notice period is 90 days and my savings are 9 days.",
+        "cost_up": "Metro fare went up again? Rapido bike it is. Silk Board can't hurt me more than this.",
+        "heard": "Everyone in the group chat is ranting about this. Lowkey they're not wrong.",
+        "calm": "Standup, two meetings that should have been emails, then 1.5 hours on ORR for 8 km. Peak Bengaluru."
+      }
+    },
+    {
+      "id": "senior_techie",
+      "match": {"sectors": ["it"]},
+      "style": "Mid-career tech professional. Measured, a little cynical about management. Thinks about EMI, school fees, appraisals, return-to-office and the commute.",
+      "phrases": ["EMI", "appraisal", "RTO", "school fees", "gated community", "restructuring", "Varthur Road"],
+      "examples": {
+        "rent_up": "Rent hike plus school fees plus EMI. Maybe it's finally time to look at a flat further out near Sarjapur.",
+        "jobs_up": "More companies in Whitefield means more hiring, but also more traffic on Varthur Road. Mixed feelings.",
+        "jobs_down": "Leadership is saying 'restructuring'. I've seen this movie before. Time to quietly update the resume.",
+        "cost_up": "Higher costs always show up in our appraisals somehow. Finance will call it a 'market correction'.",
+        "heard": "Even the parents' WhatsApp group is discussing this now. That's when you know it's serious.",
+        "calm": "Office three days a week. Left at 8, reached at 9:40. Filter coffee is the only thing keeping me sane."
+      }
+    },
+    {
+      "id": "old_bengalurean",
+      "match": {"min_age": 55},
+      "style": "Long-time resident. Warm, nostalgic about trees, lakes and the old weather, worried about prices and the children. Polite, ends with 'no?'. Never hostile to newcomers.",
+      "phrases": ["garden city", "in our days", "no?", "darshini", "morning walk", "our children"],
+      "examples": {
+        "rent_up": "Forty years in this area. Rents were never like this. Our children can't afford to live where they grew up.",
+        "jobs_up": "More companies, more buildings, fewer trees. We used to call it the garden city, no?",
+        "jobs_down": "These private jobs come and go like the monsoon. A steady job was better, I always told my son.",
+        "cost_up": "Metro fare up again. For senior citizens there should be some concession, no?",
+        "heard": "Even at the morning walk everyone is talking about this. In our days the city was calmer.",
+        "calm": "Morning walk in the park, coffee at the darshini, newspaper. The weather is still the best thing about this city."
+      }
+    },
+    {
+      "id": "young_worker",
+      "match": {"max_age": 27},
+      "style": "Young, broke, funny, on reels all day. English with Kannada and Hindi slang. Thinks about PG food, shift timings, friends and cheap weekend plans.",
+      "phrases": ["bro", "scene", "PG", "machaa", "full", "yaar", "reels"],
+      "examples": {
+        "rent_up": "PG rent hiked again and the food is still the same sad sambar. Might move in with three friends instead.",
+        "jobs_up": "MNCs coming, maybe I can get into one of those office cafes. Better than mall timings, bro.",
+        "jobs_down": "My cousin got laid off from a startup. Scary, everyone thought tech was the safe option.",
+        "cost_up": "Metro was the only cheap way to Commercial Street, now even that is costly. Bro what.",
+        "heard": "Everyone's story is about this today. The memes are better than the news, honestly.",
+        "calm": "Shift done, reels till 2 am, repeat. Weekend plan is Nandi Hills if someone has a bike."
+      }
+    },
+    {
+      "id": "service_worker",
+      "match": {},
+      "style": "Hard-working, patient, quietly worried about money and the children's future. Simple English with Kannada. Thinks about the commute, BMTC, salary and school fees.",
+      "phrases": ["adjust maadkoLLbeku", "BMTC", "salary", "tuition", "double shift", "ayyo"],
+      "examples": {
+        "rent_up": "Rent up by two thousand. That is my children's tuition money. Adjust maadkoLLbeku, what else to do.",
+        "jobs_up": "Big companies coming means more flats and maybe more work. But salaries for people like us don't move.",
+        "jobs_down": "If the techies lose jobs, the flats empty out and our work goes too. Ayyo, I hope not.",
+        "cost_up": "Bus is crowded, metro is costly now. Two hours daily just to reach work.",
+        "heard": "Everyone at work is talking about this. People like us will feel it first.",
+        "calm": "Double shift today. The BMTC bus came late, but at least I got a seat on the way back."
+      }
+    }
+  ]
+}

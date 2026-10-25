@@ -33,10 +33,10 @@
       "source_note": "placeholder"
     },
     {
-      "id": "jayanagar",
-      "name": "Jayanagar",
-      "lat": 12.9250,
-      "lng": 77.5938,
+      "id": "malleshwaram",
+      "name": "Malleshwaram",
+      "lat": 13.0035,
+      "lng": 77.5710,
       "population": 58000,
       "rent": 19000,
       "jobs": {"it": 4000, "manufacturing": 800, "services": 11000, "retail": 9000, "construction": 1200},

@@ -5,7 +5,7 @@ const EXAMPLES = [
   'Three big MNCs open in Whitefield, but the government adds a heavy tax on them.',
   'Metro fare goes up by 25%',
   'Two IT companies shut down offices in Electronic City',
-  'Rent control in Koramangala and Jayanagar',
+  'Rent control in Koramangala and Malleshwaram',
 ]
 
 export default function GodModePanel({ wards }) {

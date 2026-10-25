@@ -25,8 +25,8 @@ def test_layoffs():
 
 
 def test_rent_cap_in_two_wards():
-    got = changes("Rent control in Koramangala and Jayanagar")
-    assert got == {("koramangala", "rent", "mul", 0.95), ("jayanagar", "rent", "mul", 0.95)}
+    got = changes("Rent control in Koramangala and Malleshwaram")
+    assert got == {("koramangala", "rent", "mul", 0.95), ("malleshwaram", "rent", "mul", 0.95)}
 
 
 def test_unknown_command_warns():

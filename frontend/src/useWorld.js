@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import { connect } from './api.js'
 
-const initial = { connected: false, playing: false, tick: 0, simDate: '', provider: '', wards: [], city: {}, citizens: {}, feed: [], events: [], lastTick: null }
+const initial = { connected: false, playing: false, bubbles: {}, tick: 0, simDate: '', provider: '', wards: [], city: {}, citizens: {}, feed: [], events: [], lastTick: null }
 
 function reducer(state, msg) {
   switch (msg.type) {
@@ -21,7 +21,9 @@ function reducer(state, msg) {
       }
     case 'tick': {
       const citizens = { ...state.citizens }
+      const bubbles = { ...state.bubbles }
       for (const u of msg.citizens) {
+        bubbles[u.id] = { text: u.post || u.thought, post: Boolean(u.post), action: u.action, tick: msg.tick }
         const c = citizens[u.id]
         if (!c) continue
         citizens[u.id] = {
@@ -36,6 +38,7 @@ function reducer(state, msg) {
         wards: msg.wards,
         city: msg.city,
         citizens,
+        bubbles,
         feed: [...msg.feed.slice().reverse(), ...state.feed].slice(0, 100),
         events: [...state.events, ...msg.events.filter((e) => !state.events.some((x) => x.tick === e.tick && x.headline === e.headline))],
         lastTick: msg,

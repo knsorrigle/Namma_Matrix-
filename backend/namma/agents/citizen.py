@@ -8,10 +8,12 @@ keeps a 25-citizen city cheap enough to run on a laptop.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from ..contracts import CitizenState, CitizenUpdate, Persona, WorldEvent
 from .memory import MemoryStream
+from .voice import voice_card
 
 if TYPE_CHECKING:
     from ..world import WorldEngine
@@ -22,8 +24,9 @@ JOBS_NOTICE = 0.03
 
 
 class CitizenMind:
-    def __init__(self, persona: Persona):
+    def __init__(self, persona: Persona, data_dir: Path | None = None):
         self.persona = persona
+        self.data_dir = data_dir
         self.state = CitizenState(id=persona.id, ward_id=persona.ward_id)
         self.memory = MemoryStream()
         self.friends: list[str] = []
@@ -97,6 +100,7 @@ class CitizenMind:
             "beliefs": self.state.beliefs[-2:],
             "memories": [m.text for m in memories],
             "observations": observations,
+            **(voice_card(p, observations, self.data_dir) if self.data_dir else {}),
         }
 
     # ----------------------------------------------------------- react ----
@@ -149,7 +153,10 @@ REACT_SYSTEM = """You simulate residents of Bengaluru, India, in 2026 for a univ
 Every resident is fictional. For each resident, write their private inner thought, in first person,
 reacting to what they just noticed, consistent with their persona, memories and beliefs.
 Rules:
-- 1 or 2 sentences per thought, natural Indian English. A Kannada or Hindi word is fine.
+- 1 or 2 sentences per thought, in the resident's own voice: follow "voice.style" and use at most one or two
+  of "voice.phrases" when they fit. "voice.example" only shows the tone: never copy it.
+- "local_chatter" is what people in the city are saying about this. Let it shape the opinion, don't quote it.
+- Sound like a real Bengalurean texting a friend, not a news report.
 - People react differently: income, job, family and values matter. Not everyone is upset.
 - Never mention or stereotype caste or religion. Keep politics about policies, not parties.
 - mood_change is between -0.5 and 0.5.
