@@ -40,13 +40,21 @@ reactions without any model installed, so everyone can develop on any laptop.
 
 ```bash
 brew install ollama
-ollama serve            # leave running
-ollama pull llama3.1:8b
-cp backend/.env.example backend/.env   # then set LLM_PROVIDER=openai
+OLLAMA_CONTEXT_LENGTH=8192 ollama serve   # leave running in its own terminal
+ollama pull llama3.1:8b                    # about 5 GB
+cp backend/.env.example backend/.env       # then set LLM_PROVIDER=openai
+cd backend && python scripts/check_llm.py  # one God Mode parse + one citizen batch, with timings
 ```
 
-Restart the backend. The same settings work for Groq or any OpenAI-compatible API;
-see `backend/.env.example`.
+`OLLAMA_CONTEXT_LENGTH=8192` matters: a batch of five citizens is about 1,300 prompt
+tokens plus the answer, and older Ollama versions cut prompts at 2,048 tokens without
+telling you. Restart the backend after changing `.env`. The same settings work for Groq
+or any OpenAI-compatible API; see `backend/.env.example`.
+
+Cost per tick: with at most 10 thinking citizens in batches of 5, a tick is 2 LLM calls,
+roughly 2,700 prompt tokens and 700 output tokens (estimated from the prompt sizes;
+`check_llm.py` prints your real numbers). On a laptop that is about half a minute per busy
+tick, and calm ticks need only one small call.
 
 ### Run a scenario without the dashboard
 
