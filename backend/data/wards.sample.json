@@ -1,0 +1,75 @@
+{
+  "_note": "PLACEHOLDER figures so the simulation runs. YOGI replaces these with sourced numbers for the chosen GBA wards (see docs/contracts.md). Rent = average 1BHK, INR per month. Every real figure must carry its source and year in source_note.",
+  "city": {
+    "corporate_tax": 25.0,
+    "metro_fare": 40.0,
+    "fuel_price": 103.0
+  },
+  "wards": [
+    {
+      "id": "whitefield",
+      "name": "Whitefield",
+      "lat": 12.9698,
+      "lng": 77.7500,
+      "population": 52000,
+      "rent": 24000,
+      "jobs": {"it": 38000, "manufacturing": 2500, "services": 9000, "retail": 4000, "construction": 3000},
+      "prices": 100,
+      "traffic": 78,
+      "pollution": 92,
+      "source_note": "placeholder"
+    },
+    {
+      "id": "koramangala",
+      "name": "Koramangala",
+      "lat": 12.9352,
+      "lng": 77.6245,
+      "population": 61000,
+      "rent": 27000,
+      "jobs": {"it": 21000, "manufacturing": 500, "services": 14000, "retail": 8000, "construction": 1500},
+      "prices": 100,
+      "traffic": 74,
+      "pollution": 85,
+      "source_note": "placeholder"
+    },
+    {
+      "id": "jayanagar",
+      "name": "Jayanagar",
+      "lat": 12.9250,
+      "lng": 77.5938,
+      "population": 58000,
+      "rent": 19000,
+      "jobs": {"it": 4000, "manufacturing": 800, "services": 11000, "retail": 9000, "construction": 1200},
+      "prices": 100,
+      "traffic": 58,
+      "pollution": 70,
+      "source_note": "placeholder"
+    },
+    {
+      "id": "yelahanka",
+      "name": "Yelahanka",
+      "lat": 13.1007,
+      "lng": 77.5963,
+      "population": 47000,
+      "rent": 14000,
+      "jobs": {"it": 3000, "manufacturing": 4500, "services": 6000, "retail": 4500, "construction": 3500},
+      "prices": 100,
+      "traffic": 46,
+      "pollution": 64,
+      "source_note": "placeholder"
+    },
+    {
+      "id": "electronic_city",
+      "name": "Electronic City",
+      "lat": 12.8452,
+      "lng": 77.6602,
+      "population": 44000,
+      "rent": 13500,
+      "jobs": {"it": 30000, "manufacturing": 7000, "services": 5000, "retail": 3000, "construction": 2500},
+      "prices": 100,
+      "traffic": 66,
+      "pollution": 80,
+      "source_note": "placeholder"
+    }
+  ]
+}

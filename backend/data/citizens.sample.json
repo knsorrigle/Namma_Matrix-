@@ -1,0 +1,555 @@
+{
+  "_note": "PLACEHOLDER personas from scripts/make_personas.py. BABU replaces these with personas built from ward demographics.",
+  "citizens": [
+    {
+      "id": "c01",
+      "name": "Manjunath N.",
+      "age": 23,
+      "gender": "M",
+      "ward_id": "whitefield",
+      "job": "QA tester",
+      "sector": "it",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "shares a flat with two friends",
+      "values": [
+        "independence",
+        "family first"
+      ],
+      "traits": [
+        "sociable",
+        "curious"
+      ],
+      "commutes_by_metro": true,
+      "bio": "23-year-old QA tester in Whitefield, shares a flat with two friends. Speaks Kannada at home. Cares about independence and family first; sociable and curious."
+    },
+    {
+      "id": "c02",
+      "name": "Santosh H.",
+      "age": 24,
+      "gender": "M",
+      "ward_id": "whitefield",
+      "job": "data analyst",
+      "sector": "it",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "shares a flat with two friends",
+      "values": [
+        "community",
+        "family first"
+      ],
+      "traits": [
+        "sceptical",
+        "quiet"
+      ],
+      "commutes_by_metro": true,
+      "bio": "24-year-old data analyst in Whitefield, shares a flat with two friends. Speaks Kannada at home. Cares about community and family first; sceptical and quiet."
+    },
+    {
+      "id": "c03",
+      "name": "Prakash S.",
+      "age": 40,
+      "gender": "M",
+      "ward_id": "whitefield",
+      "job": "software engineer",
+      "sector": "it",
+      "income_band": "high",
+      "language": "Kannada",
+      "family": "shares a flat with two friends",
+      "values": [
+        "a good work-life balance",
+        "tradition"
+      ],
+      "traits": [
+        "sociable",
+        "stubborn"
+      ],
+      "commutes_by_metro": true,
+      "bio": "40-year-old software engineer in Whitefield, shares a flat with two friends. Speaks Kannada at home. Cares about a good work-life balance and tradition; sociable and stubborn."
+    },
+    {
+      "id": "c04",
+      "name": "Rekha N.",
+      "age": 32,
+      "gender": "F",
+      "ward_id": "whitefield",
+      "job": "factory supervisor",
+      "sector": "manufacturing",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "lives alone",
+      "values": [
+        "a good work-life balance",
+        "community"
+      ],
+      "traits": [
+        "ambitious",
+        "sociable"
+      ],
+      "commutes_by_metro": false,
+      "bio": "32-year-old factory supervisor in Whitefield, lives alone. Speaks Kannada at home. Cares about a good work-life balance and community; ambitious and sociable."
+    },
+    {
+      "id": "c05",
+      "name": "Anusha Q.",
+      "age": 43,
+      "gender": "F",
+      "ward_id": "whitefield",
+      "job": "domestic worker",
+      "sector": "services",
+      "income_band": "low",
+      "language": "Telugu",
+      "family": "lives with elderly parents",
+      "values": [
+        "community",
+        "saving money"
+      ],
+      "traits": [
+        "curious",
+        "optimistic"
+      ],
+      "commutes_by_metro": false,
+      "bio": "43-year-old domestic worker in Whitefield, lives with elderly parents. Speaks Telugu at home. Cares about community and saving money; curious and optimistic."
+    },
+    {
+      "id": "c06",
+      "name": "Vikas E.",
+      "age": 59,
+      "gender": "M",
+      "ward_id": "koramangala",
+      "job": "security guard",
+      "sector": "services",
+      "income_band": "low",
+      "language": "Hindi",
+      "family": "shares a flat with two friends",
+      "values": [
+        "career growth",
+        "stability"
+      ],
+      "traits": [
+        "quiet",
+        "stubborn"
+      ],
+      "commutes_by_metro": false,
+      "bio": "59-year-old security guard in Koramangala, shares a flat with two friends. Speaks Hindi at home. Cares about career growth and stability; quiet and stubborn."
+    },
+    {
+      "id": "c07",
+      "name": "Harish S.",
+      "age": 20,
+      "gender": "M",
+      "ward_id": "koramangala",
+      "job": "mall sales associate",
+      "sector": "retail",
+      "income_band": "low",
+      "language": "Kannada",
+      "family": "newly married",
+      "values": [
+        "independence",
+        "a good work-life balance"
+      ],
+      "traits": [
+        "sceptical",
+        "ambitious"
+      ],
+      "commutes_by_metro": false,
+      "bio": "20-year-old mall sales associate in Koramangala, newly married. Speaks Kannada at home. Cares about independence and a good work-life balance; sceptical and ambitious."
+    },
+    {
+      "id": "c08",
+      "name": "Vishnu J.",
+      "age": 58,
+      "gender": "M",
+      "ward_id": "koramangala",
+      "job": "kirana shop owner",
+      "sector": "retail",
+      "income_band": "middle",
+      "language": "Malayalam",
+      "family": "shares a flat with two friends",
+      "values": [
+        "family first",
+        "tradition"
+      ],
+      "traits": [
+        "sceptical",
+        "ambitious"
+      ],
+      "commutes_by_metro": false,
+      "bio": "58-year-old kirana shop owner in Koramangala, shares a flat with two friends. Speaks Malayalam at home. Cares about family first and tradition; sceptical and ambitious."
+    },
+    {
+      "id": "c09",
+      "name": "Nandini G.",
+      "age": 47,
+      "gender": "F",
+      "ward_id": "koramangala",
+      "job": "vegetable vendor",
+      "sector": "retail",
+      "income_band": "low",
+      "language": "Kannada",
+      "family": "married, one child",
+      "values": [
+        "a good work-life balance",
+        "career growth"
+      ],
+      "traits": [
+        "ambitious",
+        "anxious"
+      ],
+      "commutes_by_metro": false,
+      "bio": "47-year-old vegetable vendor in Koramangala, married, one child. Speaks Kannada at home. Cares about a good work-life balance and career growth; ambitious and anxious."
+    },
+    {
+      "id": "c10",
+      "name": "Neha E.",
+      "age": 31,
+      "gender": "F",
+      "ward_id": "koramangala",
+      "job": "delivery rider",
+      "sector": "services",
+      "income_band": "low",
+      "language": "Hindi",
+      "family": "lives with spouse, children grown up",
+      "values": [
+        "career growth",
+        "saving money"
+      ],
+      "traits": [
+        "ambitious",
+        "quiet"
+      ],
+      "commutes_by_metro": false,
+      "bio": "31-year-old delivery rider in Koramangala, lives with spouse, children grown up. Speaks Hindi at home. Cares about career growth and saving money; ambitious and quiet."
+    },
+    {
+      "id": "c11",
+      "name": "Girish E.",
+      "age": 47,
+      "gender": "M",
+      "ward_id": "jayanagar",
+      "job": "vegetable vendor",
+      "sector": "retail",
+      "income_band": "low",
+      "language": "Kannada",
+      "family": "single parent of a teenager",
+      "values": [
+        "community",
+        "saving money"
+      ],
+      "traits": [
+        "optimistic",
+        "stubborn"
+      ],
+      "commutes_by_metro": false,
+      "bio": "47-year-old vegetable vendor in Jayanagar, single parent of a teenager. Speaks Kannada at home. Cares about community and saving money; optimistic and stubborn."
+    },
+    {
+      "id": "c12",
+      "name": "Shwetha S.",
+      "age": 41,
+      "gender": "F",
+      "ward_id": "jayanagar",
+      "job": "school teacher",
+      "sector": "services",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "lives with elderly parents",
+      "values": [
+        "family first",
+        "saving money"
+      ],
+      "traits": [
+        "quiet",
+        "sociable"
+      ],
+      "commutes_by_metro": true,
+      "bio": "41-year-old school teacher in Jayanagar, lives with elderly parents. Speaks Kannada at home. Cares about family first and saving money; quiet and sociable."
+    },
+    {
+      "id": "c13",
+      "name": "Rahul M.",
+      "age": 33,
+      "gender": "M",
+      "ward_id": "jayanagar",
+      "job": "delivery rider",
+      "sector": "services",
+      "income_band": "low",
+      "language": "Hindi",
+      "family": "single parent of a teenager",
+      "values": [
+        "children's education",
+        "a good work-life balance"
+      ],
+      "traits": [
+        "quiet",
+        "optimistic"
+      ],
+      "commutes_by_metro": false,
+      "bio": "33-year-old delivery rider in Jayanagar, single parent of a teenager. Speaks Hindi at home. Cares about children's education and a good work-life balance; quiet and optimistic."
+    },
+    {
+      "id": "c14",
+      "name": "Divya S.",
+      "age": 29,
+      "gender": "F",
+      "ward_id": "jayanagar",
+      "job": "QA tester",
+      "sector": "it",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "married, one child",
+      "values": [
+        "career growth",
+        "independence"
+      ],
+      "traits": [
+        "sceptical",
+        "anxious"
+      ],
+      "commutes_by_metro": true,
+      "bio": "29-year-old QA tester in Jayanagar, married, one child. Speaks Kannada at home. Cares about career growth and independence; sceptical and anxious."
+    },
+    {
+      "id": "c15",
+      "name": "Sachin L.",
+      "age": 24,
+      "gender": "M",
+      "ward_id": "jayanagar",
+      "job": "machine operator",
+      "sector": "manufacturing",
+      "income_band": "low",
+      "language": "Marathi",
+      "family": "married, two children",
+      "values": [
+        "a good work-life balance",
+        "children's education"
+      ],
+      "traits": [
+        "stubborn",
+        "frugal"
+      ],
+      "commutes_by_metro": false,
+      "bio": "24-year-old machine operator in Jayanagar, married, two children. Speaks Marathi at home. Cares about a good work-life balance and children's education; stubborn and frugal."
+    },
+    {
+      "id": "c16",
+      "name": "Darshan X.",
+      "age": 51,
+      "gender": "M",
+      "ward_id": "yelahanka",
+      "job": "domestic worker",
+      "sector": "services",
+      "income_band": "low",
+      "language": "Kannada",
+      "family": "lives with spouse, children grown up",
+      "values": [
+        "clean environment",
+        "a good work-life balance"
+      ],
+      "traits": [
+        "frugal",
+        "optimistic"
+      ],
+      "commutes_by_metro": true,
+      "bio": "51-year-old domestic worker in Yelahanka, lives with spouse, children grown up. Speaks Kannada at home. Cares about clean environment and a good work-life balance; frugal and optimistic."
+    },
+    {
+      "id": "c17",
+      "name": "Deepa W.",
+      "age": 35,
+      "gender": "F",
+      "ward_id": "yelahanka",
+      "job": "factory supervisor",
+      "sector": "manufacturing",
+      "income_band": "middle",
+      "language": "Tamil",
+      "family": "lives alone",
+      "values": [
+        "community",
+        "stability"
+      ],
+      "traits": [
+        "outspoken",
+        "stubborn"
+      ],
+      "commutes_by_metro": false,
+      "bio": "35-year-old factory supervisor in Yelahanka, lives alone. Speaks Tamil at home. Cares about community and stability; outspoken and stubborn."
+    },
+    {
+      "id": "c18",
+      "name": "Anjali R.",
+      "age": 27,
+      "gender": "F",
+      "ward_id": "yelahanka",
+      "job": "auto driver",
+      "sector": "services",
+      "income_band": "low",
+      "language": "Hindi",
+      "family": "lives with elderly parents",
+      "values": [
+        "stability",
+        "independence"
+      ],
+      "traits": [
+        "stubborn",
+        "outspoken"
+      ],
+      "commutes_by_metro": false,
+      "bio": "27-year-old auto driver in Yelahanka, lives with elderly parents. Speaks Hindi at home. Cares about stability and independence; stubborn and outspoken."
+    },
+    {
+      "id": "c19",
+      "name": "Naveen P.",
+      "age": 29,
+      "gender": "M",
+      "ward_id": "yelahanka",
+      "job": "site engineer",
+      "sector": "construction",
+      "income_band": "middle",
+      "language": "Telugu",
+      "family": "married, two children",
+      "values": [
+        "children's education",
+        "community"
+      ],
+      "traits": [
+        "curious",
+        "sociable"
+      ],
+      "commutes_by_metro": false,
+      "bio": "29-year-old site engineer in Yelahanka, married, two children. Speaks Telugu at home. Cares about children's education and community; curious and sociable."
+    },
+    {
+      "id": "c20",
+      "name": "Lakshmi X.",
+      "age": 41,
+      "gender": "F",
+      "ward_id": "yelahanka",
+      "job": "bank clerk",
+      "sector": "services",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "lives with spouse, children grown up",
+      "values": [
+        "tradition",
+        "community"
+      ],
+      "traits": [
+        "sceptical",
+        "outspoken"
+      ],
+      "commutes_by_metro": true,
+      "bio": "41-year-old bank clerk in Yelahanka, lives with spouse, children grown up. Speaks Kannada at home. Cares about tradition and community; sceptical and outspoken."
+    },
+    {
+      "id": "c21",
+      "name": "Kavya T.",
+      "age": 30,
+      "gender": "F",
+      "ward_id": "electronic_city",
+      "job": "site engineer",
+      "sector": "construction",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "lives with spouse, children grown up",
+      "values": [
+        "community",
+        "independence"
+      ],
+      "traits": [
+        "curious",
+        "ambitious"
+      ],
+      "commutes_by_metro": false,
+      "bio": "30-year-old site engineer in Electronic City, lives with spouse, children grown up. Speaks Kannada at home. Cares about community and independence; curious and ambitious."
+    },
+    {
+      "id": "c22",
+      "name": "Vignesh F.",
+      "age": 42,
+      "gender": "M",
+      "ward_id": "electronic_city",
+      "job": "mason",
+      "sector": "construction",
+      "income_band": "low",
+      "language": "Tamil",
+      "family": "shares a flat with two friends",
+      "values": [
+        "career growth",
+        "children's education"
+      ],
+      "traits": [
+        "curious",
+        "ambitious"
+      ],
+      "commutes_by_metro": false,
+      "bio": "42-year-old mason in Electronic City, shares a flat with two friends. Speaks Tamil at home. Cares about career growth and children's education; curious and ambitious."
+    },
+    {
+      "id": "c23",
+      "name": "Sowmya S.",
+      "age": 37,
+      "gender": "F",
+      "ward_id": "electronic_city",
+      "job": "data analyst",
+      "sector": "it",
+      "income_band": "middle",
+      "language": "Kannada",
+      "family": "single parent of a teenager",
+      "values": [
+        "career growth",
+        "saving money"
+      ],
+      "traits": [
+        "stubborn",
+        "sceptical"
+      ],
+      "commutes_by_metro": true,
+      "bio": "37-year-old data analyst in Electronic City, single parent of a teenager. Speaks Kannada at home. Cares about career growth and saving money; stubborn and sceptical."
+    },
+    {
+      "id": "c24",
+      "name": "Chethan A.",
+      "age": 55,
+      "gender": "M",
+      "ward_id": "electronic_city",
+      "job": "vegetable vendor",
+      "sector": "retail",
+      "income_band": "low",
+      "language": "Kannada",
+      "family": "newly married",
+      "values": [
+        "saving money",
+        "stability"
+      ],
+      "traits": [
+        "sociable",
+        "stubborn"
+      ],
+      "commutes_by_metro": false,
+      "bio": "55-year-old vegetable vendor in Electronic City, newly married. Speaks Kannada at home. Cares about saving money and stability; sociable and stubborn."
+    },
+    {
+      "id": "c25",
+      "name": "Priya H.",
+      "age": 36,
+      "gender": "F",
+      "ward_id": "electronic_city",
+      "job": "software engineer",
+      "sector": "it",
+      "income_band": "high",
+      "language": "Tamil",
+      "family": "married, two children",
+      "values": [
+        "community",
+        "family first"
+      ],
+      "traits": [
+        "frugal",
+        "curious"
+      ],
+      "commutes_by_metro": true,
+      "bio": "36-year-old software engineer in Electronic City, married, two children. Speaks Tamil at home. Cares about community and family first; frugal and curious."
+    }
+  ]
+}
